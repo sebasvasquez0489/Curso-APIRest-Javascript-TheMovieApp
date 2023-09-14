@@ -30,7 +30,7 @@ html {
 }
 
 body {
-  background-color:rgb(161, 161, 161);
+  background-color:rgb(142, 136, 136);
   color: var(--green-dark-2);
   font-family: var(--font-family-text);
   font-weight: var(--font-weight-text1);
