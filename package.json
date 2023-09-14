@@ -1,0 +1,19 @@
+{
+  "name": "curso-apirest-javascript-themovieapp",
+  "version": "1.0.0",
+  "description": "Curso práctico de Consumo de API REST con JavaScript.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sebasvasquez0489/Curso-APIRest-Javascript-TheMovieApp.git"
+  },
+  "author": "sebas vasquez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebasvasquez0489/Curso-APIRest-Javascript-TheMovieApp/issues"
+  },
+  "homepage": "https://github.com/sebasvasquez0489/Curso-APIRest-Javascript-TheMovieApp#readme"
+}
