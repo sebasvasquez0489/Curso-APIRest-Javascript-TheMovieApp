@@ -55,9 +55,8 @@ function createCategories(categories, container) {
   });
 }
 
-
 //Llamados ala API
-//****SECCIÓN DE FAVORITOS ****/
+//**** SECCIÓN DE FAVORITOS ****/
 /// Creamos la función asincrona y consumimos la información de la API ////
 //Utilizamos destructuración para la variable "data" y utilizamos la variable "api" creada con AXIOS.
 async function getTrendingMoviesPreview() {
@@ -67,7 +66,7 @@ async function getTrendingMoviesPreview() {
   createMovies(movies, trendingMoviesPreviewList);
 }
 
-//****SECCIÓN DE CATEGORIAS/GENERO ****/
+//**** SECCIÓN DE CATEGORIAS/GENERO ****/
 async function getCategegoriesPreview() {
   const { data } = await api('genre/movie/list?');
   const categories = data.genres;
@@ -75,7 +74,7 @@ async function getCategegoriesPreview() {
   createCategories(categories, categoriesPreviewList);
 }
 
-//****INGRESAMOS LAS PELICULAS DE CADA CATEGORIA ****/
+//**** INGRESAMOS LAS PELICULAS DE CADA CATEGORIA ****/
 async function getMoviesByCategory(id) {
   const { data } = await api('discover/movie', {
     params: {
@@ -87,3 +86,14 @@ async function getMoviesByCategory(id) {
   createMovies(movies, genericSection);
 }
 
+//**** FUNCION PARA BUSQUEDAS ****/
+async function getMoviesBySearch(query) {
+  const { data } = await api('search/movie', {
+    params: {
+      query,
+    }
+  });
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+}
