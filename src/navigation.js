@@ -27,7 +27,11 @@ function navigator() {
   }else {
     homePage();
   }
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+
 }
+
 ///FUNCIONES PARA CADA VISTA
 function homePage() {
   console.log('HOME');
@@ -63,6 +67,14 @@ function categoriesPage() {
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
+
+  //SEPARAMOS EL "ID" DE LA CATEGORIA DE LA "URL"
+  /// ['#category', 'id-name']
+  const [_, categoryData] = location.hash.split('=');
+  const [categoryId, categoryName] = categoryData.split('-');
+  headerCategoryTitle.innerHTML = categoryName;
+
+  getMoviesByCategory(categoryId);
 
 }
 function movieDetailsPage() {

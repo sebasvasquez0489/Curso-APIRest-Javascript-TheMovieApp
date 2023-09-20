@@ -9,42 +9,34 @@ const api = axios.create({
     'api_key': API_KEY,
   },
 });
-          //****SECCIÓN DE FAVORITOS ****/
-/// Creamos la función asincrona y consumimos la información de la API ////
-//Utilizamos destructuración para la variable "data" y utilizamos la variable "api" creada con AXIOS.
-async function getTrendingMoviesPreview() {
-  const { data } = await api('trending/movie/day');
-  const movies = data.results;
 
-   //Limpiamos el html
-  trendingMoviesPreviewList.innerHTML = "";
+/** UTILS - FUNCIONES REUTILIZABLES */
+function createMovies(movies, container) {
+  container.innerHTML = '';
 
-  //Recorremos la información obtenida. 
-  //Creamos y agregamos los elementos(IMAGENES) con sus clases y atributos dinamicamente.
-  movies.forEach(movie => {
-    const movieContainer = document.createElement('div');
-    movieContainer.classList.add('movie-container');
+//Recorremos la información obtenida. 
+//Creamos y agregamos los elementos(IMAGENES) con sus clases y atributos dinamicamente.
+movies.forEach(movie => {
+  const movieContainer = document.createElement('div');
+  movieContainer.classList.add('movie-container');
 
-    const movieImg = document.createElement('img');
-    movieImg.classList.add('movie-img');
-    movieImg.setAttribute('alt', movie.title);
-    movieImg.setAttribute(
-      'src', 
-      'https://image.tmdb.org/t/p/w300' + movie.poster_path,
-      );
-      movieContainer.appendChild(movieImg);
-      trendingMoviesPreviewList.appendChild(movieContainer);
-  });
+  const movieImg = document.createElement('img');
+  movieImg.classList.add('movie-img');
+  movieImg.setAttribute('alt', movie.title);
+  movieImg.setAttribute(
+    'src', 
+    'https://image.tmdb.org/t/p/w300' + movie.poster_path,
+    );
+    movieContainer.appendChild(movieImg);
+    container.appendChild(movieContainer);
+});
 }
 
-         //****SECCIÓN DE CATEGORIAS/GENERO ****/
-async function getCategegoriesPreview() {
-  const { data } = await api('genre/movie/list?');
-  const categories = data.genres;
-  
-  //Limpiamos el html
-  categoriesPreviewList.innerHTML = "";
+function createCategories(categories, container) {
+  container.innerHTML = "";
 
+//Recorremos la información obtenida. 
+//Creamos y agregamos los elementos(IMAGENES) con sus clases y atributos dinamicamente.
   categories.forEach(category => {    
     const categoryContainer = document.createElement('div');
     categoryContainer.classList.add('category-container');
@@ -52,12 +44,46 @@ async function getCategegoriesPreview() {
     const categoryTitle = document.createElement('h3');
     categoryTitle.classList.add('category-title');
     categoryTitle.setAttribute('id', 'id' + category.id);
+    categoryTitle.addEventListener('click', () => {
+      location.hash = `#category=${category.id}-${category.name}`;
+    });
     const categoryTitleText = document.createTextNode(category.name);
 
     categoryTitle.appendChild(categoryTitleText);
     categoryContainer.appendChild(categoryTitle);
-    categoriesPreviewList.appendChild(categoryContainer);
+    container.appendChild(categoryContainer);
   });
 }
 
+
+//Llamados ala API
+//****SECCIÓN DE FAVORITOS ****/
+/// Creamos la función asincrona y consumimos la información de la API ////
+//Utilizamos destructuración para la variable "data" y utilizamos la variable "api" creada con AXIOS.
+async function getTrendingMoviesPreview() {
+  const { data } = await api('trending/movie/day');
+  const movies = data.results;
+
+  createMovies(movies, trendingMoviesPreviewList);
+}
+
+//****SECCIÓN DE CATEGORIAS/GENERO ****/
+async function getCategegoriesPreview() {
+  const { data } = await api('genre/movie/list?');
+  const categories = data.genres;
+  
+  createCategories(categories, categoriesPreviewList);
+}
+
+//****INGRESAMOS LAS PELICULAS DE CADA CATEGORIA ****/
+async function getMoviesByCategory(id) {
+  const { data } = await api('discover/movie', {
+    params: {
+      with_genres: id,
+    }
+  });
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+}
 
