@@ -9,7 +9,8 @@ trendingBtn.addEventListener('click', () => {
 
 //Agregamos evento a la "flecha <" para regresar al HOME.
 arrowBtn.addEventListener('click', () => {
-  location.hash = '#home';
+  history.back();
+  //location.hash = '#home';
 });
 
 window.addEventListener('DOMContentLoaded', navigator, false);
@@ -38,8 +39,8 @@ function navigator() {
 function homePage() {
   console.log('HOME');
 
-  headerSection.classList.remove('headers-container--long');
-  headerSection.computedStyleMap.background = '';
+  headerSection.classList.remove('header-container--long');
+  headerSection.style.background = '';
   arrowBtn.classList.add('inactive');
   arrowBtn.classList.remove('header-arrow--white');
   headerTitle.classList.remove('inactive')
@@ -95,6 +96,10 @@ function movieDetailsPage() {
   genericSection.classList.add('inactive');
   movieDetailSection.classList.remove('inactive');
 
+    // ['#movie', 'Id pelicula']
+    const [_, movieId] = location.hash.split('=');
+     getMovieById(movieId);
+
 }
 function searchPage() {
   console.log("SEARCH!!!");
@@ -130,5 +135,9 @@ function trendsPage() {
   categoriesPreviewSection.classList.add('inactive');
   genericSection.classList.remove('inactive');
   movieDetailSection.classList.add('inactive');
+
+  headerCategoryTitle.innerHTML = 'Tendencias'
+
+  getTrendingMovies();
 
 }
